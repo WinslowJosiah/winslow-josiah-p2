@@ -53,6 +53,7 @@ var gmxCommands = [
 			}
 			if (randMax <= 0)
 			{
+				setError("ERROR: Upper bound for random integer must be positive");
 				this.programExecuting = false;
 				return;
 			}
@@ -367,9 +368,9 @@ window.onload = function() {
 			}
 			// Set the values that were decoded
 			programEl.value = byteStringToText(stateString[0]);
-			//autosize.update($program);
+			autosize.update(programEl);
 			inputEl.value = byteStringToText(stateString[1]);
-			//autosize.update($input);
+			autosize.update(inputEl);
 			cheatmodeButton.className = byteStringToText(stateString[2]);
 		}
 	}
