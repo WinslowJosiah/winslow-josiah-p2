@@ -86,7 +86,6 @@ nav li {
 	/* This fixes...something */
 	overflow: auto;
 	width: -moz-fit-content;
-	width: -webkit-fit-content;
 	width: fit-content;
 	transition: background-color 1s ease;
 }
@@ -212,6 +211,21 @@ code.ignore-spaces{
 #program-done {
 	color: seaGreen;
 	font-weight: bold;
+}
+
+#share-text {
+	/* Initially don't let this display */
+	display: none;
+	opacity: 0;
+	/* Make it so the user doesn't accidentally select it */
+	/* (This is not secure, but this is also not important enough to need securing) */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	font-family: Anonymous Pro, Consolas, Courier New, monospace;
+	font-size: 1.1em;
+	font-weight: bold;
+	margin: 0 5px;
 }
 
 textarea {

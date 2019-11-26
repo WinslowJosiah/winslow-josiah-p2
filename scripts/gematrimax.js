@@ -306,7 +306,14 @@ var gmxCommands = [
 		cmd: ":",
 		desc: "output the top stack value as a number and discard it",
 		func: function(argc, argv) {
-			
+			var val = this.stack.pop();
+			if (isUndefined(val))
+			{
+				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			addToOutput(val.toString());
 		}
 	},
 	{
@@ -323,6 +330,7 @@ window.onload = function() {
 	var programEl = get("program-code");
 	var inputEl = get("program-input");
 	var outputEl = get("program-output");
+	var shareTextEl = get("share-text");
 	
 	var cheatmodeButton = get("button-cheatmode");
 	var executeButton = get("button-execute");
@@ -339,6 +347,66 @@ window.onload = function() {
 	
 	// Cause all textboxes to resize automatically
 	autosize(document.getElementsByTagName("textarea"));
+	
+	// Try to decode any share data in the URL.
+	try {
+		// Get the data after the question mark in the URL
+		stateString = window.location.href.match(/\?(.+)$/);
+		// If there is any...
+		if (stateString !== null) {
+			// Gather it
+			stateString = stateString[1];
+			// Decode it
+			stateString = byteArrayToByteString(pako.inflateRaw(base64ToByteString(stateString)));
+			// Split it on \xFF characters
+			stateString = stateString.split("\xff");
+			// If the cheatmode button's class is invalid...
+			if (!["good","bad"].includes(stateString[2])) {
+				// Throw an error
+				throw "error";
+			}
+			// Set the values that were decoded
+			programEl.value = byteStringToText(stateString[0]);
+			//autosize.update($program);
+			inputEl.value = byteStringToText(stateString[1]);
+			//autosize.update($input);
+			cheatmodeButton.className = byteStringToText(stateString[2]);
+		}
+	}
+	catch (err){
+		// Give an error if we could not decode the share data
+		console.error("The share data in the URL is malformed, or otherwise undecodable. Be sure it has been copied exactly into the address bar.");
+	}
+	
+	// Click handler for clicking on the "Share" button
+	shareButton.onclick = function(e) {
+		// Join the texts of the needed values together with an \xFF character
+		// We're using UTF-8, and \xFF is a byte that can never occur within a UTF-8 sequence
+		stateString = [textToByteString(programEl.value), textToByteString(inputEl.value), textToByteString(cheatmodeButton.className)].join("\xff");
+		// If the program textarea is not empty...
+		if (!stateString.startsWith("\xff"))
+		{
+			// Encode the string and place it in the address bar
+			history.pushState({}, "", "?" + byteStringToBase64(byteArrayToByteString(pako.deflateRaw(byteStringToByteArray(stateString), {"level": 9}))));
+			// Copy it to the clipboard as well
+			copyToClipboard(window.location.href);
+			// Alert the user by showing the share text
+			// Fade in for 250 ms...
+			FX.fadeIn(shareTextEl, {
+				duration: 250,
+				complete: function() {
+					// ...then fade out for 250 ms...
+					setTimeout(function() {
+						FX.fadeOut(shareTextEl, {
+							duration: 250,
+							complete: function () { }
+						});
+					// ...after waiting for 250 ms
+					}, 250);
+				}
+			});
+		}
+	};
 	
 	// Click handler for clicking on the "Cheat Mode" button
 	cheatmodeButton.onclick = function(e) {
@@ -649,4 +717,42 @@ function setError(str) {
 // Set done indicator to string
 function setDone(str) {
 	get("program-done").textContent = str;
+}
+
+// These functions are stolen from TIO.run
+function textToByteString(string) {
+	return unescape(encodeURIComponent(string));
+}
+
+function byteStringToText(byteString) {
+	return decodeURIComponent(escape(byteString));
+}
+
+function byteStringToBase64(byteString) {
+	return btoa(byteString).replace(/\+/g, "@").replace(/=+/, "");
+}
+
+function base64ToByteString(base64String) {
+	return atob(unescape(base64String).replace(/@|-/g, "+").replace(/_/g, "/"));
+}
+
+function byteArrayToByteString(byteArray) {
+	var retval = "";
+	iterate(byteArray, function(byte) { retval += String.fromCharCode(byte); });
+	return retval;
+}
+
+function byteStringToByteArray(byteString) {
+	var byteArray = new Uint8Array(byteString.length);
+	for(var index = 0; index < byteString.length; index++)
+		byteArray[index] = byteString.charCodeAt(index);
+	byteArray.head = 0;
+	return byteArray;
+}
+
+function iterate(iterable, monad) {
+	if (!iterable)
+		return;
+	for (var i = 0; i < iterable.length; i++)
+		monad(iterable[i]);
 }

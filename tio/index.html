@@ -16,6 +16,8 @@
 		<script src="../scripts/gematrimax.js"></script>
 		<!-- Make textboxes grow with their content -->
 		<script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js"></script>
+		<!-- Assist with encoding share data into a URL -->
+		<script src="https://cdn.rawgit.com/nodeca/pako/master/dist/pako.min.js"></script>
 		
 		<!-- Meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,7 +90,7 @@
 		<section class="yes-script">
 			<h3>Gematrimax Online Interpreter</h3>
 			<div class="buttons-container">
-				<button id="button-share" class="good">Share</button> <span id="share-code-msg" class="inline-code"></span>
+				<button id="button-share" class="good">Share</button> <span id="share-code-msg" class="inline-code"></span> <span id="share-text">Copied to clipboard!</span>
 			</div>
 			<textarea id="program-code" rows="3" cols="100" placeholder="Enter your program here..."></textarea>
 			<textarea id="program-input" rows="1" cols="100" placeholder="Program input goes here..."></textarea>
