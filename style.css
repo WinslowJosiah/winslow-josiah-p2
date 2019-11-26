@@ -172,7 +172,7 @@ nav #nav-collapse, nav label[for="nav-collapse"] {
 	}
 }
 
-code {
+code, #output-container {
 	display: block;
 	background-color: paleGreen;
 	color: black;
@@ -189,7 +189,7 @@ code {
 	white-space: pre-wrap;
 }
 
-code.ignore-spaces{
+#output-container {
 	white-space: initial;
 }
 

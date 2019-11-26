@@ -4,7 +4,38 @@ var gmxCommands = [
 		cmd: "[",
 		desc: "loop while top of stack is nonzero (tested before start)",
 		func: function(argc, argv) {
-			
+			var val = this.stack.pop();
+			if (isUndefined(val))
+			{
+				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			// If value is nonzero...
+			if (val != 0)
+			{
+				// Push onto the address stack
+				this.addressStack.push(this.instructionPointer);
+			}
+			else
+			{
+				// Skip to matching end-while
+				var nestDepth = 0;
+				while (true)
+				{
+					this.instructionPointer++;
+					if (["[", "_["].includes(this.commands[this.instructionPointer].cmd))
+					{
+						nestDepth++;
+					}
+					else if (["]"].includes(this.commands[this.instructionPointer].cmd))
+					{
+						nestDepth--;
+						if (nestDepth < 0) break;
+					}
+					console.log(nestDepth);
+				}
+			}
 		}
 	},
 	{
@@ -12,7 +43,7 @@ var gmxCommands = [
 		cmd: "_[",
 		desc: "loop while top of stack is nonzero (tested after end)",
 		func: function(argc, argv) {
-			
+			this.addressStack.push(this.instructionPointer);
 		}
 	},
 	{
@@ -20,7 +51,30 @@ var gmxCommands = [
 		cmd: "]",
 		desc: "end while loop",
 		func: function(argc, argv) {
+			var loopBackPointer = this.addressStack.pop();
 			
+			// If this is a while loop...
+			if ("[" == this.commands[loopBackPointer].cmd)
+			{
+				console.log("Looping back to eval");
+				this.instructionPointer = loopBackPointer - 1;
+			}
+			// If this is a do-while loop...
+			else
+			{
+				console.log("Eval-ing here");
+				var val = this.stack.pop();
+				if (isUndefined(val))
+				{
+					setError("ERROR: Can't pop from empty stack");
+					this.programExecuting = false;
+					return;
+				}
+				if (val != 0)
+				{
+					this.instructionPointer = loopBackPointer - 1;
+				}
+			}
 		}
 	},
 	{
@@ -65,8 +119,8 @@ var gmxCommands = [
 		cmd: ";",
 		desc: "pop a value from the stack and discard",
 		func: function(argc, argv) {
-			var discard = this.stack.pop();
-			if (isUndefined(discard))
+			var val = this.stack.pop();
+			if (isUndefined(val))
 			{
 				setError("ERROR: Can't pop from empty stack");
 				this.programExecuting = false;
@@ -206,7 +260,21 @@ var gmxCommands = [
 		cmd: ">",
 		desc: "pop n, then push a copy of the nth stack value from the top",
 		func: function(argc, argv) {
-			
+			var pointer = this.stack.pop();
+			if (isUndefined(pointer))
+			{
+				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			pointer = Number(pointer);
+			if (!(pointer >= 0 && pointer < this.stack.length))
+			{
+				setError("ERROR: Stack index out of range");
+				this.programExecuting = false;
+				return;
+			}
+			this.stack.push(this.stack[this.stack.length - 1 - pointer]);
 		}
 	},
 	{
@@ -214,7 +282,21 @@ var gmxCommands = [
 		cmd: "<",
 		desc: "pop n, then push a copy of the nth stack value from the bottom",
 		func: function(argc, argv) {
-			
+			var pointer = this.stack.pop();
+			if (isUndefined(pointer))
+			{
+				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			pointer = Number(pointer);
+			if (!(pointer >= 0 && pointer < this.stack.length))
+			{
+				setError("ERROR: Stack index out of range");
+				this.programExecuting = false;
+				return;
+			}
+			this.stack.push(this.stack[pointer]);
 		}
 	},
 	{
@@ -239,7 +321,14 @@ var gmxCommands = [
 		cmd: ")",
 		desc: "rotate the entire stack, shifting the top value down to the bottom",
 		func: function(argc, argv) {
-			
+			var a = this.stack.pop();
+			if (isUndefined(a))
+			{
+				setError("ERROR: Can't rotate empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			this.stack.unshift(a);
 		}
 	},
 	{
@@ -247,7 +336,14 @@ var gmxCommands = [
 		cmd: "(",
 		desc: "rotate the entire stack, shifting the bottom value up to the top",
 		func: function(argc, argv) {
-			
+			var a = this.stack.shift();
+			if (isUndefined(a))
+			{
+				setError("ERROR: Can't rotate empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			this.stack.push(a);
 		}
 	},
 	{
@@ -255,7 +351,30 @@ var gmxCommands = [
 		cmd: "}",
 		desc: "pop n, then rotate the stack n times, shifting the top value down to the bottom",
 		func: function(argc, argv) {
-			
+			var val = this.stack.pop();
+			if (isUndefined(val))
+			{
+				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			if (val < 0)
+			{
+				setError("ERROR: Can't rotate a negative number of times");
+				this.programExecuting = false;
+				return;
+			}
+			for (var i = 0n; i < val; i++)
+			{
+				var a = this.stack.pop();
+				if (isUndefined(a))
+				{
+					setError("ERROR: Can't rotate empty stack");
+					this.programExecuting = false;
+					return;
+				}
+				this.stack.unshift(a);
+			}
 		}
 	},
 	{
@@ -263,7 +382,30 @@ var gmxCommands = [
 		cmd: "{",
 		desc: "pop n, then rotate the stack n times, shifting the bottom value up to the top",
 		func: function(argc, argv) {
-			
+			var val = this.stack.pop();
+			if (isUndefined(val))
+			{
+				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			if (val < 0)
+			{
+				setError("ERROR: Can't rotate a negative number of times");
+				this.programExecuting = false;
+				return;
+			}
+			for (var i = 0; i < val; i++)
+			{
+				var a = this.stack.shift();
+				if (isUndefined(a))
+				{
+					setError("ERROR: Can't rotate empty stack");
+					this.programExecuting = false;
+					return;
+				}
+				this.stack.push(a);
+			}
 		}
 	},
 	{
@@ -483,8 +625,10 @@ function executeGematrimax(program) {
 	if (!cmdList) return false;
 	
 	var executionState = {
+		commands: cmdList,
 		instructionPointer: 0,
 		stack: [],
+		addressStack: [],
 		// Best way to get the codepoints!
 		inputCodepoints: [...(get("program-input").value)],
 		inputPointer: 0,
@@ -493,7 +637,7 @@ function executeGematrimax(program) {
 	};
 	
 	return function() {
-		for (var i = 0; i < 1; i++)
+		for (var i = 0; i < 250; i++)
 		{
 			var currentCommand = cmdList[executionState.instructionPointer];
 			// If there is a command here...
