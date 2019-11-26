@@ -619,7 +619,7 @@ window.onload = function() {
 		if (interval === null)
 		{
 			interval = setInterval(function() {
-				if (!execute())
+				if (!execute || !execute())
 				{
 					setDone("Done.");
 					clearInterval(interval);
@@ -784,19 +784,27 @@ function gmxProgramToCommandList(program) {
 
 // Convert a Gematrimax Cheat Mode program to a list of commands
 function gmxCheatmodeToCommandList(cheatmodeProgram) {
-	var pushCommand = /#(x[0-9a-f]+|[0-9]+)/i;
+	var pushCommand = /#(x[1-9a-f][0-9a-f]*|[1-9][0-9]*)/i;
 	
 	// Strip all comments (strings surrounded by quotes)
 	cheatmodeProgram = cheatmodeProgram.replace(/"[^"]+("|$)/gi,"");
 	
-	// If there is a push command not followed by an argument
-	if (cheatmodeProgram.match(/#(?!(x[0-9a-f]+|[0-9]+))/gi))
+	// If there is a push command argument starting with 0
+	if (cheatmodeProgram.match(/#(?=x?0)/gi))
 	{
-		throw "PUSH command without argument";
+		setError("ERROR: Cannot push 0");
+		return;
+	}
+	
+	// If there is a push command not followed by an argument
+	if (cheatmodeProgram.match(/#(?!x[1-9a-f][0-9a-f]*|[1-9][0-9]*)/gi))
+	{
+		setError("ERROR: Push command without argument");
+		return;
 	}
 	
 	// Take only the valid Cheat Mode commands
-	var cheatmodeArr = cheatmodeProgram.match(/#(x[0-9a-f]+|[0-9]+)|_?\[|[\]=?;+\-*/%!$&><\\)(}{,.:@]/gi);
+	var cheatmodeArr = cheatmodeProgram.match(/#(x[1-9a-f][0-9a-f]*|[1-9][0-9]*)|_?\[|[\]=?;+\-*/%!$&><\\)(}{,.:@]/gi);
 	if (!cheatmodeArr) cheatmodeArr = [];
 	
 	// Initialize the list of commands
@@ -856,14 +864,14 @@ function gmxCheatmodeToCommandList(cheatmodeProgram) {
 		// If there are too many loop end commands...
 		if (nestDepth < 0)
 		{
-			throw "Unbalanced loops";
+			setError("ERROR: Unbalanced loops");
 		}
 	}
 	
 	// If there are too many loop start commands...
 	if (nestDepth != 0)
 	{
-		throw "Unbalanced loops";
+		setError("ERROR: Unbalanced loops");
 	}
 	
 	return commandList;
