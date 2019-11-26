@@ -1,0 +1,315 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Anonymous+Pro|Baloo|Podkova|Telex&display=swap');
+
+/* Mostly color definitions */
+:root {
+	--dark-accent: #ba7c4e;
+	--dark-shade: #546784;
+	--light-shade: #f9f9f8;
+	--light-accent: #9a9189;
+	--main-shade: #d0b999;
+}
+
+body {
+	background-color: var(--light-shade);
+	color: black;
+	font-family: Telex, Helvetica, Arial, sans-serif;
+	font-size: 16px;
+}
+
+header {
+	text-align: center;
+}
+
+h1, h2, h3 {
+	font-family: Baloo, Segoe UI, fantasy;
+	margin: .5em 0;
+	line-height: 1em;
+}
+
+h1 {
+	font-size: 3.5em;
+}
+
+h2 {
+	font-size: 2em;
+}
+
+h3 {
+	font-size: 1.8em;
+}
+
+/* If the screen width is 425px or less... */
+@media screen and (max-width: 425px){
+	header h1 {
+		font-size: 15vw;
+	}
+	
+	header h2 {
+		font-size: 9vw;
+	}
+}
+
+a {
+	color: deepSkyBlue;
+	filter: brightness(100%);
+	transition: filter .5s ease;
+}
+
+a:visited {
+	color: darkOrchid;
+}
+
+a:not(.nav-link):hover {
+	filter: brightness(130%);
+}
+
+/* Navbar styles */
+
+nav #nav-items {
+	/* This is not a list */
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	/* This fixes things with the floating */
+	overflow: hidden;
+}
+
+nav li {
+	/* Once again, this is not a list */
+	list-style-type: none;
+	background-color: var(--main-shade);
+	border: 2px solid darkSlateGray;
+	border-radius: .25em;
+	margin: 5px 5px;
+	float: left;
+	/* This fixes...something */
+	overflow: auto;
+	width: -moz-fit-content;
+	width: -webkit-fit-content;
+	width: fit-content;
+	transition: background-color 1s ease;
+}
+
+nav a, nav a:visited {
+	/* Just in case */
+	display: block;
+	color: black;
+	text-decoration: none;
+	padding: 7px 14px;
+	transition: padding-left .5s ease, color .5s ease;
+}
+
+nav li.active {
+	background-color: var(--light-accent);
+}
+
+nav li.active a {
+	color: var(--light-shade);
+}
+
+nav li:not(.active):hover {
+	background-color: var(--dark-accent);
+}
+
+nav li:not(.active):hover a {
+	color: white;
+	padding-left: 1.8em;
+}
+
+nav #nav-collapse, nav label[for="nav-collapse"] {
+	/* Do not display by default */
+	display: none;
+}
+
+/* If the screen width is 800px or less... */
+@media screen and (max-width: 800px){
+	nav li {
+		float: none;
+		/* Center horizontally */
+		margin: 5px auto;
+	}
+	
+	nav #nav-collapse {
+		/* Don't display the checkbox */
+		display: none;
+	}
+	
+	nav label[for="nav-collapse"] {
+		/* This fixes things */
+		display: block;
+		position: relative;
+		background-color: var(--main-shade);
+		color: black;
+		width: 100%;
+		box-sizing: border-box;
+		letter-spacing: .1em;
+		font-family: Podkova, Georgia, serif;
+		font-weight: bold;
+		font-variant: small-caps;
+		text-align: center;
+		border: 2px solid darkSlateGray;
+		border-radius: 8px;
+		margin: 10px auto;
+		padding: 10px 15px;
+		transition: background-color .5s ease, color .5s ease;
+	}
+	
+	nav label[for="nav-collapse"]:hover {
+		background-color: var(--dark-accent);
+		color: white;
+		cursor: pointer;
+	}
+	
+	nav #nav-items {
+		/* By default, have the nav-bar collapsed */
+		max-height: 0;
+		transition: all .75s ease;
+	}
+	
+	nav #nav-collapse:checked ~ #nav-items {
+		/* Expand to its full height */
+		max-height: 350px;
+	}
+}
+
+code {
+	display: block;
+	background-color: paleGreen;
+	color: black;
+	border: 2px solid seaGreen;
+	border-radius: 5px;
+	font-family: Anonymous Pro, Consolas, Courier New, monospace;
+	font-size: 18px;
+	width: -moz-fit-content;
+	width: fit-content;
+	max-width: 100%;
+	box-sizing: border-box;
+	padding: .5em;
+	line-height: 1.25em;
+	white-space: pre-wrap;
+}
+
+code.ignore-spaces{
+	white-space: initial;
+}
+
+#program-output {
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+#program-output[data-placeholder]:empty:before {
+	content: attr(data-placeholder);
+	color: gray;
+}
+
+#program-error {
+	color: crimson;
+	font-weight: bold;
+}
+
+#program-done {
+	color: seaGreen;
+	font-weight: bold;
+}
+
+textarea {
+	display: block;
+	background-color: paleGreen;
+	color: black;
+	border: 2px solid seaGreen;
+	border-radius: 5px;
+	font-family: Anonymous Pro, Consolas, Courier New, monospace;
+	font-size: 18px;
+	/* Make it as wide as it needs to be... */
+	width: -moz-fit-content;
+	width: fit-content;
+	/* ...except when it's too wide to show */
+	max-width: 100%;
+	box-sizing: border-box;
+	margin: 5px 0;
+	padding: .5em;
+	line-height: 1.25em;
+	resize: none;
+	outline: none;
+	transition: box-shadow .25s linear;
+}
+
+textarea:focus {
+	box-shadow: 0px 0px 10px seaGreen;
+}
+
+.buttons-container {
+	margin: 5px 0;
+}
+
+button {
+	font-family: Podkova, Georgia, serif;
+	font-size: 1.5em;
+	border: 2px solid black;
+	border-radius: 8px;
+	margin: 10px 0;
+	padding: 3px 5px;
+	outline: none;
+	cursor: pointer;
+	white-space: pre;
+	/* The shadow emphasizes the push-down */
+	box-shadow: 0px 8px 5px 0px gray;
+	transition: background-color .4s ease, color .4s ease, box-shadow .1s ease, transform .1s ease;
+}
+
+button.good {
+	background: snow;
+	color: limeGreen;
+}
+
+button.bad {
+	background: snow;
+	color: crimson;
+}
+
+button.good:hover {
+	background: limeGreen;
+	color: snow;
+}
+
+button.bad:hover {
+	background: crimson;
+	color: snow;
+}
+
+button:active {
+	transform: translateY(4px);
+	box-shadow: 0px 4px 5px 0px gray;
+}
+
+hr {
+	border: 2px solid var(--dark-accent);
+}
+
+address {
+	line-height: 1.5em;
+}
+
+jw-icon {
+	width: 1.5em;
+	height: 1.5em;
+	vertical-align: middle;
+}
+
+jw-icon[type="github"] {
+	content: url(images/github.png);
+}
+
+jw-icon[type="gmail"] {
+	content: url(images/gmail.png);
+}
+
+jw-icon[type="itchio"] {
+	content: url(images/itchio.png);
+}
+
+jw-icon[type="twitter"] {
+	content: url(images/twitter.png);
+}
