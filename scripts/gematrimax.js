@@ -1,3 +1,5 @@
+// Command definitions
+
 var gmxCommands = [
 	{
 		val: 1,
@@ -33,7 +35,6 @@ var gmxCommands = [
 						nestDepth--;
 						if (nestDepth < 0) break;
 					}
-					console.log(nestDepth);
 				}
 			}
 		}
@@ -56,13 +57,11 @@ var gmxCommands = [
 			// If this is a while loop...
 			if ("[" == this.commands[loopBackPointer].cmd)
 			{
-				console.log("Looping back to eval");
 				this.instructionPointer = loopBackPointer - 1;
 			}
 			// If this is a do-while loop...
-			else
+			else if ("_[" == this.commands[loopBackPointer].cmd)
 			{
-				console.log("Eval-ing here");
 				var val = this.stack.pop();
 				if (isUndefined(val))
 				{
@@ -189,6 +188,13 @@ var gmxCommands = [
 				this.programExecuting = false;
 				return;
 			}
+			// Special case to handle division by 0 (which is illegal)
+			if (b == 0)
+			{
+				setError("ERROR: Can't divide by zero");
+				this.programExecuting = false;
+				return;
+			}
 			this.stack.push(a / b);
 		}
 	},
@@ -202,6 +208,13 @@ var gmxCommands = [
 			if (isUndefined(a) || isUndefined(b))
 			{
 				setError("ERROR: Can't pop from empty stack");
+				this.programExecuting = false;
+				return;
+			}
+			// Special case to handle modulo 0 (which is illegal)
+			if (b == 0)
+			{
+				setError("ERROR: Can't modulo by zero");
 				this.programExecuting = false;
 				return;
 			}
@@ -236,6 +249,7 @@ var gmxCommands = [
 				this.programExecuting = false;
 				return;
 			}
+			// Can't use Math.max() because these are BigInts
 			this.stack.push(a > b ? a : b);
 		}
 	},
@@ -321,14 +335,7 @@ var gmxCommands = [
 		cmd: ")",
 		desc: "rotate the entire stack, shifting the top value down to the bottom",
 		func: function(argc, argv) {
-			var a = this.stack.pop();
-			if (isUndefined(a))
-			{
-				setError("ERROR: Can't rotate empty stack");
-				this.programExecuting = false;
-				return;
-			}
-			this.stack.unshift(a);
+			_rotateStackTopToBottom.call(this, argc, argv);
 		}
 	},
 	{
@@ -336,14 +343,7 @@ var gmxCommands = [
 		cmd: "(",
 		desc: "rotate the entire stack, shifting the bottom value up to the top",
 		func: function(argc, argv) {
-			var a = this.stack.shift();
-			if (isUndefined(a))
-			{
-				setError("ERROR: Can't rotate empty stack");
-				this.programExecuting = false;
-				return;
-			}
-			this.stack.push(a);
+			_rotateStackBottomToTop.call(this, argc, argv);
 		}
 	},
 	{
@@ -358,22 +358,24 @@ var gmxCommands = [
 				this.programExecuting = false;
 				return;
 			}
+			// If value is negative, rotate in the other direction
 			if (val < 0)
 			{
-				setError("ERROR: Can't rotate a negative number of times");
-				this.programExecuting = false;
-				return;
-			}
-			for (var i = 0n; i < val; i++)
-			{
-				var a = this.stack.pop();
-				if (isUndefined(a))
+				// This is to ensure that we rotate a maximum of (stack length - 1) times
+				val = -val % BigInt(this.stack.length);
+				for (var i = 0; i < val; i++)
 				{
-					setError("ERROR: Can't rotate empty stack");
-					this.programExecuting = false;
-					return;
+					_rotateStackBottomToTop.call(this, argc, argv);
 				}
-				this.stack.unshift(a);
+			}
+			else
+			{
+				// This is to ensure that we rotate a maximum of (stack length - 1) times
+				val %= BigInt(this.stack.length);
+				for (var i = 0; i < val; i++)
+				{
+					_rotateStackTopToBottom.call(this, argc, argv);
+				}
 			}
 		}
 	},
@@ -389,22 +391,24 @@ var gmxCommands = [
 				this.programExecuting = false;
 				return;
 			}
+			// If value is negative, rotate in the other direction
 			if (val < 0)
 			{
-				setError("ERROR: Can't rotate a negative number of times");
-				this.programExecuting = false;
-				return;
-			}
-			for (var i = 0; i < val; i++)
-			{
-				var a = this.stack.shift();
-				if (isUndefined(a))
+				// This is to ensure that we rotate a maximum of (stack length - 1) times
+				val = -val % BigInt(this.stack.length);
+				for (var i = 0; i < val; i++)
 				{
-					setError("ERROR: Can't rotate empty stack");
-					this.programExecuting = false;
-					return;
+					_rotateStackTopToBottom.call(this, argc, argv);
 				}
-				this.stack.push(a);
+			}
+			else
+			{
+				// This is to ensure that we rotate a maximum of (stack length - 1) times
+				val %= BigInt(this.stack.length);
+				for (var i = 0; i < val; i++)
+				{
+					_rotateStackBottomToTop.call(this, argc, argv);
+				}
 			}
 		}
 	},
@@ -437,11 +441,14 @@ var gmxCommands = [
 				this.programExecuting = false;
 				return;
 			}
-			// If the number is within valid Unicode codepoint range...
-			if (val >= 0 && val < 1114112)
+			// If the number is not within valid Unicode codepoint range...
+			if (!(val >= 0 && val < 1114112))
 			{
-				addToOutput(String.fromCodePoint(Number(val)));
+				setError("ERROR: Unicode codepoint out of range");
+				this.programExecuting = false;
+				return;
 			}
+			addToOutput(String.fromCodePoint(Number(val)));
 		}
 	},
 	{
@@ -466,8 +473,34 @@ var gmxCommands = [
 		func: function(argc, argv) {
 			this.programExecuting = false;
 		}
-	},
-]
+	}
+];
+
+// Helper functions for commands
+
+function _rotateStackTopToBottom(argc, argv) {
+	var a = this.stack.pop();
+	if (isUndefined(a))
+	{
+		setError("ERROR: Can't rotate empty stack");
+		this.programExecuting = false;
+		return;
+	}
+	this.stack.unshift(a);
+}
+
+function _rotateStackBottomToTop(argc, argv) {
+	var a = this.stack.shift();
+	if (isUndefined(a))
+	{
+		setError("ERROR: Can't rotate empty stack");
+		this.programExecuting = false;
+		return;
+	}
+	this.stack.push(a);
+}
+
+// Now the REAL code begins
 
 window.onload = function() {
 	var programEl = get("program-code");
@@ -658,14 +691,6 @@ function executeGematrimax(program) {
 			{
 				executionState.programExecuting = false;
 			}
-			
-			console.log(executionState.stack);
-			console.log(executionState.inputCodepoints);
-			console.log(`Input pointer: ${executionState.inputPointer}`);
-			console.log(`Instruction pointer: ${executionState.instructionPointer}`);
-			console.log(`Instruction: ${currentCommand ? currentCommand.cmd : "none"}`);
-			console.log(`End of input? ${executionState.eofReached ? "Yes" : "No"}`);
-			console.log(`Program still executing? ${executionState.programExecuting ? "Yes" : "No"}`);
 			
 			// If the program has stopped, we're not still going!
 			if (!executionState.programExecuting) return false;
