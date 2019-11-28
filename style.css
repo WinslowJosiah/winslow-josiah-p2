@@ -172,7 +172,7 @@ nav #nav-collapse, nav label[for="nav-collapse"] {
 	}
 }
 
-code, #output-container {
+code, input[type="text"], textarea, #output-container {
 	display: block;
 	background-color: paleGreen;
 	color: black;
@@ -184,9 +184,30 @@ code, #output-container {
 	width: fit-content;
 	max-width: 100%;
 	box-sizing: border-box;
+	margin: .5em 0;
 	padding: .5em;
 	line-height: 1.25em;
+}
+
+code {
 	white-space: pre-wrap;
+}
+
+input[type="text"] {
+	width: 400px;
+	/* Because of the C in CSS, this already respects max-width: 100% */
+	outline: none;
+	transition: box-shadow .25s linear;
+}
+
+textarea {
+	resize: none;
+	outline: none;
+	transition: box-shadow .25s linear;
+}
+
+input:focus, textarea:focus {
+	box-shadow: 0px 0px 10px seaGreen;
 }
 
 #output-container {
@@ -228,30 +249,24 @@ code, #output-container {
 	margin: 0 5px;
 }
 
-textarea {
-	display: block;
-	background-color: paleGreen;
-	color: black;
-	border: 2px solid seaGreen;
-	border-radius: 5px;
-	font-family: Anonymous Pro, Consolas, Courier New, monospace;
-	font-size: 18px;
-	/* Make it as wide as it needs to be... */
+#gematriabot-container {
 	width: -moz-fit-content;
 	width: fit-content;
-	/* ...except when it's too wide to show */
 	max-width: 100%;
-	box-sizing: border-box;
-	margin: 5px 0;
-	padding: .5em;
-	line-height: 1.25em;
-	resize: none;
-	outline: none;
-	transition: box-shadow .25s linear;
+	/* Center everything! It must be symmetrical! */
+	text-align: center;
+	margin: 0px auto;
 }
 
-textarea:focus {
-	box-shadow: 0px 0px 10px seaGreen;
+#gematriabot-container input[type="text"] {
+	/* Horizontally center the text input */
+	margin: .5em auto;
+}
+
+#gematriabot-checkbox-container {
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
 }
 
 .buttons-container {
@@ -296,6 +311,69 @@ button.bad:hover {
 button:active {
 	transform: translateY(4px);
 	box-shadow: 0px 4px 5px 0px gray;
+}
+
+.checkbox-label {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+	/* We're setting the font size so we can size by ems */
+	font-size: 24px;
+	height: 1em;
+	width: 1em;
+	margin: 8px;
+}
+
+.checkbox-label input {
+	/* Hide the checkbox */
+	position: absolute;
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+
+.checkbox-label .checkbox-checkmark {
+	position: absolute;
+	background-color: paleGreen;
+	/* To compensate for the border (box-sizing: border-box does not help) */
+	top: -2px;
+	left: -2px;
+	height: 1em;
+	width: 1em;
+	border: 2px solid seaGreen;
+	border-radius: 5px;
+	transition: background-color .1s ease;
+}
+
+.checkbox-label .checkbox-checkmark:after {
+	content: "";
+	position: absolute;
+	top: .1em;
+	left: .3em;
+	height: .5em;
+	width: .25em;
+	border: solid paleGreen;
+	border-radius: 0;
+	border-width: 0 .15em .15em 0;
+	transform: rotate(0deg) scale(0);
+	transition: transform .25s ease;
+}
+
+.checkbox-label input:checked ~ .checkbox-checkmark {
+	background-color: seaGreen;
+}
+
+/* Haha this looks like a checkmark */
+.checkbox-label input:checked ~ .checkbox-checkmark:after {
+	transform: rotate(45deg) scale(1);
+}
+
+.checkbox-label-container {
+	display: flex;
+	/* Vertically align stuff */
+	align-items: center;
+	justify-content: center;
+	margin: 0px .25em;
 }
 
 hr {
