@@ -172,7 +172,7 @@ nav #nav-collapse, nav label[for="nav-collapse"] {
 	}
 }
 
-code, input[type="text"], textarea, #output-container {
+code, input[type="text"], textarea, #output-container, #gematriabot-output {
 	display: block;
 	background-color: paleGreen;
 	color: black;
@@ -187,6 +187,7 @@ code, input[type="text"], textarea, #output-container {
 	margin: .5em 0;
 	padding: .5em;
 	line-height: 1.25em;
+	overflow-x: auto;
 }
 
 code {
@@ -197,6 +198,7 @@ input[type="text"] {
 	width: 400px;
 	/* Because of the C in CSS, this already respects max-width: 100% */
 	outline: none;
+	padding: .1em .5em;
 	transition: box-shadow .25s linear;
 }
 
@@ -214,9 +216,14 @@ input:focus, textarea:focus {
 	white-space: initial;
 }
 
-#program-output {
-	white-space: pre-wrap;
-	overflow-wrap: break-word;
+#gematriabot-output {
+	white-space: initial;
+	margin: .5em auto;
+}
+
+#gematriabot-output:empty:after {
+	content: "Output will go here...";
+	color: gray;
 }
 
 #program-output[data-placeholder]:empty:before {
@@ -250,9 +257,7 @@ input:focus, textarea:focus {
 }
 
 #gematriabot-container {
-	width: -moz-fit-content;
-	width: fit-content;
-	max-width: 100%;
+	width: 75vw;
 	/* Center everything! It must be symmetrical! */
 	text-align: center;
 	margin: 0px auto;
@@ -267,6 +272,40 @@ input:focus, textarea:focus {
 	display: flex;
 	justify-content: space-evenly;
 	flex-wrap: wrap;
+}
+
+.gematriabot-pos {
+	display: inline-block;
+	color: white;
+	text-shadow: 2px 2px 4px black;
+	padding: .2em .5em;
+	margin: .2em .1em;
+	border: 2px solid black;
+	border-radius: 8px;
+}
+
+.gematriabot-pos.gematriabot-pos-noun {
+	background-color: paleVioletRed;
+}
+
+.gematriabot-pos.gematriabot-pos-verb {
+	background-color: tan;
+}
+
+.gematriabot-pos.gematriabot-pos-adjective {
+	background-color: wheat;
+}
+
+.gematriabot-pos.gematriabot-pos-adverb {
+	background-color: lightGreen;
+}
+
+.gematriabot-pos.gematriabot-pos-number {
+	background-color: cadetBlue;
+}
+
+.gematriabot-pos.gematriabot-pos-other {
+	background-color: steelBlue;
 }
 
 .buttons-container {
@@ -342,7 +381,7 @@ button:active {
 	width: 1em;
 	border: 2px solid seaGreen;
 	border-radius: 5px;
-	transition: background-color .1s ease;
+	transition: background-color .25s ease;
 }
 
 .checkbox-label .checkbox-checkmark:after {
@@ -373,7 +412,9 @@ button:active {
 	/* Vertically align stuff */
 	align-items: center;
 	justify-content: center;
-	margin: 0px .25em;
+	width: -moz-fit-content;
+	width: fit-content;
+	margin: 0px .35em;
 }
 
 hr {

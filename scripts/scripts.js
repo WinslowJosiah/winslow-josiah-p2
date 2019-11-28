@@ -113,6 +113,26 @@ const randBigInt = function(range) {
 	return result;
 }
 
+// Make HTMLCollections forEach-able
+if (!HTMLCollection.prototype.forEach)
+{
+	HTMLCollection.prototype.forEach = function(callback, thisArg) {
+		if (isUndefined(thisArg)) thisArg = this;
+		for (var i = 0; i < this.length; i++) {
+			callback.call(thisArg, this[i], i, this);
+		}
+	};
+}
+
+// Check if string is either undefined or full of whitespace
+if (!String.prototype.isNullOrWhitespace)
+{
+	String.prototype.isNullOrWhitespace = function() {
+		if (isUndefined(this) || this == null) return true;
+		return this.replace(/\s/g, "").length < 1;
+	};
+}
+
 // "Other" things
 
 // Gematrimax command definitions

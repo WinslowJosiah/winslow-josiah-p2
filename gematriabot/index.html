@@ -85,57 +85,55 @@
 			</ul>
 		</nav>
 		<section class="yes-script">
-			<p>Enter in an English word for its gematria value, a number for suggestions of words that add up to it, or a <strong>Gematrimax</strong> Cheat Mode command for suggestions of words to represent it.</p>
+			<p>Enter an English word for its gematria value, a number for suggestions of words that add up to it, or a <strong>Gematrimax</strong> Cheat Mode command for suggestions of words to represent it.</p>
 			<div id="gematriabot-container">
 				<h3>Gematria-Bot</h3>
-				<input type="text" id="gematriabot-input" placeholder="word, number, or command..." autofocus>
+				<input type="text" id="gematriabot-input" autofocus>
 				<div id="gematriabot-checkbox-container">
 					<div class="checkbox-label-container">
-						<span>Nouns</span>
+						<span class="gematriabot-pos gematriabot-pos-noun">Nouns</span>
 						<label class="checkbox-label">
-							<input type="checkbox">
+							<input type="checkbox" data-pos="Noun">
 							<span class="checkbox-checkmark"></span>
 						</label>
 					</div>
 					<div class="checkbox-label-container">
-						<span>Verbs</span>
+						<span class="gematriabot-pos gematriabot-pos-verb">Verbs</span>
 						<label class="checkbox-label">
-							<input type="checkbox">
+							<input type="checkbox" data-pos="Verb">
 							<span class="checkbox-checkmark"></span>
 						</label>
 					</div>
 					<div class="checkbox-label-container">
-						<span>Adjectives</span>
+						<span class="gematriabot-pos gematriabot-pos-adjective">Adjectives</span>
 						<label class="checkbox-label">
-							<input type="checkbox">
+							<input type="checkbox" data-pos="Adj">
 							<span class="checkbox-checkmark"></span>
 						</label>
 					</div>
 					<div class="checkbox-label-container">
-						<span>Adverbs</span>
+						<span class="gematriabot-pos gematriabot-pos-adverb">Adverbs</span>
 						<label class="checkbox-label">
-							<input type="checkbox">
+							<input type="checkbox" data-pos="Adv">
 							<span class="checkbox-checkmark"></span>
 						</label>
 					</div>
 					<div class="checkbox-label-container">
-						<span>Numbers</span>
+						<span class="gematriabot-pos gematriabot-pos-number">Numbers</span>
 						<label class="checkbox-label">
-							<input type="checkbox">
+							<input type="checkbox" data-pos="Num">
 							<span class="checkbox-checkmark"></span>
 						</label>
 					</div>
 					<div class="checkbox-label-container">
-						<span>Other</span>
+						<span class="gematriabot-pos gematriabot-pos-other">Other</span>
 						<label class="checkbox-label">
-							<input type="checkbox">
+							<input type="checkbox" data-pos="Othr">
 							<span class="checkbox-checkmark"></span>
 						</label>
 					</div>
 				</div>
-				<div id="gematriabot-output-container">
-					
-				</div>
+				<div id="gematriabot-output"></div>
 			</div>
 		</section>
 		<section class="no-script">

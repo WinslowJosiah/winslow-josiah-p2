@@ -157,7 +157,7 @@ function executeGematrimax(program) {
 		// Best way to get the codepoints!
 		inputCodepoints: [...(get("program-input").value)],
 		inputPointer: 0,
-		eofReached: false,
+		eofReached: [...(get("program-input").value)].length == 0,
 		programExecuting: true
 	};
 	
