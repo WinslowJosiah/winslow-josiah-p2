@@ -190,7 +190,7 @@ code, input[type="text"], textarea, #output-container, #gematriabot-output {
 	overflow-x: auto;
 }
 
-code {
+code, #program-output {
 	white-space: pre-wrap;
 }
 
@@ -394,7 +394,7 @@ button:active {
 	border: solid paleGreen;
 	border-radius: 0;
 	border-width: 0 .15em .15em 0;
-	transform: rotate(0deg) scale(0);
+	transform: rotate(-180deg) scale(0);
 	transition: transform .25s ease;
 }
 
