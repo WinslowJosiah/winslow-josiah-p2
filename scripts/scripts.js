@@ -759,3 +759,33 @@ function iterate(iterable, monad) {
 	for (var i = 0; i < iterable.length; i++)
 		monad(iterable[i]);
 }
+
+// Now the REAL code begins
+
+// Get path of TIO page relative to this script's path
+var tioPage = document.currentScript.src;
+tioPage = tioPage.substr(0, tioPage.lastIndexOf("/") + 1);
+tioPage = tioPage + "../tio/index.html";
+
+window.onload = function() {
+	// Place a TIO link in each code tag
+	document.getElementsByTagName("code").forEach(function(el) {
+		// Create a link...
+		var tioLink = document.createElement("a");
+		// ...that's styled how we want it to be...
+		tioLink.classList.add("tio-message");
+		// ...that brings us to a new tab...
+		tioLink.setAttribute("target", "_blank");
+		// ...that autofills with the right code...
+		tioLink.setAttribute("href", tioPage + "?" + TIOStateToURL([
+			// The code
+			el.textContent,
+			// The input ("" if the attribute doesn't exist)
+			el.getAttribute("data-tio-input"),
+			// Either of "good" or "bad" depending on if this attribute exists
+			el.hasAttribute("data-tio-cheatmode") ? "good" : "bad"
+		]));
+		// ...and that we insert just before the end of the code element
+		el.insertAdjacentElement("beforeend", tioLink);
+	});
+}

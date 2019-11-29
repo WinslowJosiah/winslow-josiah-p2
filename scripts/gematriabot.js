@@ -43,6 +43,17 @@ window.onload = function() {
 			// This is a numerical search
 			isNumber = true;
 		}
+		// If it's an English word...
+		else if (regexMatch = val.match(/^\s*('*(?:[a-z]'*)+)\s*$/))
+		{
+			// Do nothing
+		}
+		// If it's not anything we recognize...
+		else
+		{
+			outputEl.textContent = "I don't recognize this input...";
+			return;
+		}
 		
 		// If we are conducting a numerical search of the dictionary...
 		if (isNumber)
@@ -61,11 +72,15 @@ window.onload = function() {
 				// Add if the values are equal
 				if (val == gematriaVal) addWordToOutput(wrd, posList);
 			});
+			// If output is empty, add a message saying so
+			if (outputEl.innerHTML == "") outputEl.textContent = "No results!";
 		}
 		// If we are doing a straight gematria calculation of one word...
 		else
 		{
-			console.log(gematria(val));
+			var gematriaVal = gematria(val);
+			var gematriaCommandNum = Number((gematriaVal - 1n) % 26n + 1n);
+			outputEl.innerHTML = `<span class="gematriabot-output-number">${gematriaVal}</span><br>Reduced: <span class="gematriabot-output-bolded">${gematriaCommandNum}</span><br>Command: <span class="gematriabot-output-bolded">${gmxCommands.find(cmd => cmd.val == gematriaCommandNum).cmd}</span>`;
 		}
 	};
 	

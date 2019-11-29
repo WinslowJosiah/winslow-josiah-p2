@@ -60,7 +60,7 @@ a:visited {
 	color: darkOrchid;
 }
 
-a:not(.nav-link):hover {
+a:not(.nav-link):not(.tio-message):hover {
 	filter: brightness(130%);
 }
 
@@ -219,14 +219,11 @@ input:focus, textarea:focus {
 #gematriabot-output {
 	white-space: initial;
 	margin: .5em auto;
+	line-height: initial;
 }
 
-#gematriabot-output:empty:after {
-	content: "Output will go here...";
-	color: gray;
-}
-
-#program-output[data-placeholder]:empty:before {
+/* Asterisks FTW */
+*[data-placeholder]:empty:before {
 	content: attr(data-placeholder);
 	color: gray;
 }
@@ -274,6 +271,15 @@ input:focus, textarea:focus {
 	flex-wrap: wrap;
 }
 
+.gematriabot-output-number {
+	font-size: 4em;
+}
+
+.gematriabot-output-bolded {
+	font-size: 1.2em;
+	font-weight: bolder;
+}
+
 .gematriabot-pos {
 	display: inline-block;
 	color: white;
@@ -306,6 +312,28 @@ input:focus, textarea:focus {
 
 .gematriabot-pos.gematriabot-pos-other {
 	background-color: steelBlue;
+}
+
+a.tio-message {
+	/* The first two styles fix link properties I don't want */
+	display: block;
+	text-decoration: none;
+	background-color: mediumSeaGreen;
+	color: mintCream;
+	font-family: Baloo, Segoe UI, fantasy;
+	font-size: 18px;
+	width: -moz-fit-content;
+	width: fit-content;
+	border: 2px solid seaGreen;
+	border-radius: 5px;
+	/* Right-align */
+	margin: .2em 0 0 auto;
+	padding: .1em .3em;
+}
+
+/* So I don't have to add it myself */
+.tio-message:after {
+	content: "Try It Online!";
 }
 
 .buttons-container {
