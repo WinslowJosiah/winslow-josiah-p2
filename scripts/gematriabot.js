@@ -44,7 +44,7 @@ window.onload = function() {
 			isNumber = true;
 		}
 		// If it's an English word...
-		else if (regexMatch = val.match(/^\s*('*(?:[a-z]'*)+)\s*$/))
+		else if (regexMatch = val.match(/^\s*('*(?:[a-z]'*)+)\s*$/i))
 		{
 			// Do nothing
 		}
