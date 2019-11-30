@@ -172,6 +172,16 @@ nav #nav-collapse, nav label[for="nav-collapse"] {
 	}
 }
 
+.inline-code {
+	display: inline-block;
+	background-color: paleGreen;
+	border: 1px solid seaGreen;
+	border-radius: 3px;
+	font-family: Anonymous Pro, Consolas, Courier New, monospace;
+	font-weight: bold;
+	padding: .1em .3em;
+}
+
 code, input[type="text"], textarea, #output-container, #gematriabot-output {
 	display: block;
 	background-color: paleGreen;
@@ -276,14 +286,14 @@ input:focus, textarea:focus {
 }
 
 .gematriabot-output-bolded {
-	font-size: 1.2em;
+	font-size: 1.25em;
 	font-weight: bolder;
 }
 
 .gematriabot-pos {
 	display: inline-block;
 	color: white;
-	text-shadow: 2px 2px 4px black;
+	text-shadow: 2px 2px 3px black;
 	padding: .2em .5em;
 	margin: .2em .1em;
 	border: 2px solid black;
@@ -299,7 +309,7 @@ input:focus, textarea:focus {
 }
 
 .gematriabot-pos.gematriabot-pos-adjective {
-	background-color: wheat;
+	background-color: khaki;
 }
 
 .gematriabot-pos.gematriabot-pos-adverb {
@@ -307,11 +317,11 @@ input:focus, textarea:focus {
 }
 
 .gematriabot-pos.gematriabot-pos-number {
-	background-color: cadetBlue;
+	background-color: steelBlue;
 }
 
 .gematriabot-pos.gematriabot-pos-other {
-	background-color: steelBlue;
+	background-color: mediumOrchid;
 }
 
 a.tio-message {

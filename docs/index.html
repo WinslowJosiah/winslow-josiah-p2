@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Gematrimax Documentation</title>
+		
+		<!-- Sometimes I need to include this early, so I do it out of habit -->
+		<meta charset="utf-8">
+		
+		<!-- CSS (Cascading Style Sheets) file -->
+		<link rel="stylesheet" href="../style.css">
+		
+		<!-- JavaScript files -->
+		<!-- Some main stuff -->
+		<script src="../scripts/scripts.js"></script>
+		<!-- Assist with encoding share data into a URL -->
+		<script src="https://cdn.rawgit.com/nodeca/pako/master/dist/pako.min.js"></script>
+		
+		<!-- Meta tags -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="The home page for Gematrimax, an esolang which turns words into numbers, and then turns those into commands.">
+		<meta name="keywords" content="gematrimax, esolang, esoteric, programming, language, interpreter, documentation">
+		<!-- Noscript and print functionality, just in case -->
+		<style>
+			.no-script {
+				display: none;
+			}
+			.yes-print {
+				display: none;
+			}
+			@media print {
+				.no-print {
+					display: none;
+				}
+				.yes-print {
+					display: initial;
+				}
+			}
+		</style>
+		<noscript>
+			<style>
+				.yes-script {
+					display: none;
+				}
+				.no-script {
+					display: initial;
+				}
+			</style>
+		</noscript>
+	</head>
+	<body>
+		<header>
+			<h1>Gematrimax</h1>
+			<h2>Take A Number & Crack Its Code</h2>
+		</header>
+		<!-- Navigation bar -->
+		<nav>
+			<input id="nav-collapse" type="checkbox">
+			<label for="nav-collapse">
+				Site Navigation
+			</label>
+			<ul id="nav-items">
+				<li>
+					<a class="nav-link" href="../index.html">Home</a>
+				</li>
+				<li class="active">
+					<a class="nav-link" href="index.html">Docs</a>
+				</li>
+				<li>
+					<a class="nav-link" href="../index.html">Examples</a>
+				</li>
+				<li>
+					<a class="nav-link" href="../tio/index.html">Try It Online</a>
+				</li>
+				<li>
+					<a class="nav-link" href="../gematriabot/index.html">Gematria-Bot</a>
+				</li>
+				<li>
+					<a class="nav-link" href="../index.html">Download</a>
+				</li>
+				<li>
+					<a class="nav-link" href="../index.html">FAQ</a>
+				</li>
+			</ul>
+		</nav>
+		<section>
+			<p>The <strong>Gematrimax</strong> programming language aims to combine all of the fun of programming with all of the fun of Gematria (at least, Gematria from before the Internet got a hold of it). This page contains a full documentation for each command and its functions.</p>
+		</section>
+		<section>
+			<h3>Gematrimax vs. Gematrimax Cheat Mode</h3>
+			<p>Before we delve too deep into the commands of <strong>Gematrimax</strong>, it's useful to have a more concrete way of thinking of them. To aid in writing <strong>Gematrimax</strong> programs, I've created an alternate syntax for them, which you can activate on the <a href="../tio/index.html">online interpreter</a> by clicking the "Cheat Mode" button. This syntax makes programs look less like this:</p>
+<code>Chocolate cake is good.
+Before they'll get themselves this, a person regularly exercises.</code>
+			<p>...and more like this:</p>
+<code data-tio-cheatmode>#20      "push 20"
+_[       "repeat..."
+  &amp;:#32. "print the number and a space"
+  #1-    "decrement the number"
+&]       "...until the number is 0"</code>
+			<p>...which should hopefully be an easier syntax to write programs in. (Don't worry, this page will teach you both!)</p>
+			<p>For the sake of convenience, this page will refer to this alternate syntax as <strong>Cheat Mode</strong>. Its commands are functionally exactly the same as the commands of <strong>Gematrimax</strong>, except there are no tricky letter sums to keep track of.</p>
+		</section>
+		<section>
+			<h3>How Gematrimax Programs Are Processed</h3>
+			<p>A <strong>Gematrimax</strong> program is a file containing plain text, which is processed like this before running:</p>
+			<ul>
+				<li>Divide the text into words. Words are any sequence of characters containing only English letters and apostrophes (like <span class="inline-code">fruit</span>, <span class="inline-code">they've</span>, or even non-English-words like <span class="inline-code">'asdf'gh'jkl'</span>).
+					<ul>
+						<li>The word can even contain accents, like <span class="inline-code">r&eacute;sum&eacute;</span> or <span class="inline-code">&Ntilde;&uuml;&aring;&ntilde;&ccedil;&ecirc;</span>, and it will be parsed as if it contained only the accentless letters.</li>
+						<li>Words separated by hyphens (as well as any non-letter-or-apostrophe character) count as two words. For example, <span class="inline-code">fun-filled</span> will be parsed as the two words <span class="inline-code">fun</span> and <span class="inline-code">filled</span>.</li>
+					</ul>
+				</li>
+				<li>Take each word, and assign a number value to each letter (A = 1, B = 2, ... Y = 25, Z = 26). Then, add up each value to get a single number.
+					<ul>
+						<li>For example, for the word <span class="inline-code">bag</span>, <strong>B</strong> = 2, <strong>A</strong> = 1, and <strong>G</strong> = 7, so the sum of this word would be 2 + 1 + 7, or <strong>10</strong>.</li>
+					</ul>
+				</li>
+				<li>For words with a sum of over 26, 26 is subtracted until it is in between 1 and 26 inclusive (similar to calculating the value modulo 26).
+					<ul>
+						<li>For example, the sum of the word <span class="inline-code">copy</span> is <strong>59</strong>. 59 minus 26 is <strong>33</strong>. 33 minus 26 is <strong>7</strong>, which is between 1 and 26. This means that <span class="inline-code">copy</span> ends up having a value of <strong>7</strong>.</li>
+					</ul>
+				</li>
+				<li>After calculating each word's value, each word is converted to the command with the same value in the following list of commands, and is then executed.</li>
+			</ul>
+		</section>
+		<hr>
+		<address>
+			<jw-icon type="gmail"></jw-icon> <a href="mailto:winslowjosiah@gmail.com">winslowjosiah@gmail.com</a>
+			<br>
+			<jw-icon type="twitter"></jw-icon> <a href="https://twitter.com/WinslowJosiah">@WinslowJosiah</a>
+			<br>
+			<jw-icon type="github"></jw-icon> <a href="https://github.com/winslowjosiah">WinslowJosiah</a>
+			<br>
+			<jw-icon type="itchio"></jw-icon> <a href="https://winslowjosiah.itch.io">Josiah Winslow</a>
+		</address>
+	</body>
+</html>

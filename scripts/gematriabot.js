@@ -44,7 +44,8 @@ window.onload = function() {
 			isNumber = true;
 		}
 		// If it's an English word...
-		else if (regexMatch = val.match(/^\s*('*(?:[a-z]'*)+)\s*$/i))
+		// (we have to remove accents and diacritics before we do this check, to be consistent)
+		else if (regexMatch = val.normalize("NFD").replace(/[\u0300-\u036f]/g, "").match(/^\s*('*(?:[a-z]'*)+)\s*$/i))
 		{
 			// Do nothing
 		}
