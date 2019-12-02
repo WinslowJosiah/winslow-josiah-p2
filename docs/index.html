@@ -17,7 +17,7 @@
 		
 		<!-- Meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="The home page for Gematrimax, an esolang which turns words into numbers, and then turns those into commands.">
+		<meta name="description" content="The documentation page for Gematrimax, an esolang which turns words into numbers, and then turns those into commands.">
 		<meta name="keywords" content="gematrimax, esolang, esoteric, programming, language, interpreter, documentation">
 		<!-- Noscript and print functionality, just in case -->
 		<style>
@@ -66,7 +66,7 @@
 					<a class="nav-link" href="index.html">Docs</a>
 				</li>
 				<li>
-					<a class="nav-link" href="../index.html">Examples</a>
+					<a class="nav-link" href="../examples/index.html">Examples</a>
 				</li>
 				<li>
 					<a class="nav-link" href="../tio/index.html">Try It Online</a>
@@ -121,6 +121,169 @@ _[       "repeat..."
 				</li>
 				<li>After calculating each word's value, each word is converted to the command with the same value in the following list of commands, and is then executed.</li>
 			</ul>
+		</section>
+		<section>
+			<h3>Quick Summary Of Gematrimax Commands</h3>
+			<p>Filler text.</p>
+			<div class="table-container">
+				<table>
+					<tr>
+						<th>Value</th> <th>Cheat Mode Command</th> <th>Description</th>
+					</tr>
+					<tr>
+						<td>1</td> <td><a class="inline-code" href="#cmd1">[</a></td> <td>Pop a value from the stack. If nonzero, then loop code from here to the matching <a class="inline-code" href="#cmd3">]</a> until the top value of the stack is zero.</td>
+					</tr>
+					<tr>
+						<td>2</td> <td><a class="inline-code" href="#cmd2">_[</a></td> <td>Execute code from here to the matching <a class="inline-code" href="#cmd3">]</a>, then pop a value from the stack. If nonzero, loop back and execute again.</td>
+					</tr>
+					<tr>
+						<td>3</td> <td><a class="inline-code" href="#cmd3">]</a></td> <td>This command marks the end of a <a class="inline-code" href="#cmd1">[</a> or <a class="inline-code" href="#cmd2">_[</a> loop.</td>
+					</tr>
+					<tr>
+						<td>4</td> <td><a class="inline-code" href="#cmd4">#</a></td> <td>Push the gematria value of the next word as a number. (The next word's value is not restricted to 1-26.)</td>
+					</tr>
+					<tr>
+						<td>5</td> <td><a class="inline-code" href="#cmd5">=</a></td> <td>Push the number of items on the stack as a number.</td>
+					</tr>
+					<tr>
+						<td>6</td> <td><a class="inline-code" href="#cmd6">?</a></td> <td>Pop a value <em>n</em> from the top of the stack, then push a random number from 0 to <strong>n</strong> right-exclusive.</td>
+					</tr>
+					<tr>
+						<td>7</td> <td><a class="inline-code" href="#cmd7">;</a></td> <td>Pop a value from the top of the stack and discard it.</td>
+					</tr>
+					<tr>
+						<td>8</td> <td><a class="inline-code" href="#cmd8">+</a></td> <td>Pop two values <strong>b</strong>, then <strong>a</strong> from the top of the stack, then push <strong>a</strong>+<strong>b</strong>.</td>
+					</tr>
+					<tr>
+						<td>9</td> <td><a class="inline-code" href="#cmd9">-</a></td> <td>Pop two values <strong>b</strong>, then <strong>a</strong> from the top of the stack, then push <strong>a</strong>-<strong>b</strong>.</td>
+					</tr>
+					<tr>
+						<td>10</td> <td><a class="inline-code" href="#cmd10">*</a></td> <td>Pop two values <strong>b</strong>, then <strong>a</strong> from the top of the stack, then push <strong>a</strong>*<strong>b</strong>.</td>
+					</tr>
+					<tr>
+						<td>11</td> <td><a class="inline-code" href="#cmd11">/</a></td> <td>Pop two values <strong>b</strong>, then <strong>a</strong> from the top of the stack, then push <strong>a</strong>/<strong>b</strong> (truncated to an integer value).</td>
+					</tr>
+					<tr>
+						<td>12</td> <td><a class="inline-code" href="#cmd12">%</a></td> <td>Pop two values <strong>b</strong>, then <strong>a</strong> from the top of the stack, then push the remainder of <strong>a</strong>/<strong>b</strong>.</td>
+					</tr>
+					<tr>
+						<td>13</td> <td><a class="inline-code" href="#cmd13">!</a></td> <td>Pop a value <strong>n</strong> from the top of the stack. If <strong>n</strong> is zero, push 1, otherwise push 0.</td>
+					</tr>
+					<tr>
+						<td>14</td> <td><a class="inline-code" href="#cmd14">$</a></td> <td>Pop two values <strong>b</strong>, then <strong>a</strong> from the top of the stack, then push the highest of the two values.</td>
+					</tr>
+					<tr>
+						<td>15</td> <td><a class="inline-code" href="#cmd15">&amp;</a></td> <td>Duplicate the top value of the stack.</td>
+					</tr>
+					<tr>
+						<td>16</td> <td><a class="inline-code" href="#cmd16">&gt;</a></td> <td>Pop a value <strong>n</strong> from the top of the stack, then push the <strong>n</strong>th value from the top (with 0 being the top value).</td>
+					</tr>
+					<tr>
+						<td>17</td> <td><a class="inline-code" href="#cmd17">&lt;</a></td> <td>Pop a value <strong>n</strong> from the top of the stack, then push the <strong>n</strong>th value from the bottom (with 0 being the bottom value).</td>
+					</tr>
+					<tr>
+						<td>18</td> <td><a class="inline-code" href="#cmd18">\</a></td> <td>Swap the order of the top two values of the stack.</td>
+					</tr>
+					<tr>
+						<td>19</td> <td><a class="inline-code" href="#cmd19">)</a></td> <td>Rotate the whole stack, moving the top value to the bottom.</td>
+					</tr>
+					<tr>
+						<td>20</td> <td><a class="inline-code" href="#cmd20">(</a></td> <td>Rotate the whole stack, moving the bottom value to the top.</td>
+					</tr>
+					<tr>
+						<td>21</td> <td><a class="inline-code" href="#cmd21">}</a></td> <td>Pop a value <strong>n</strong> from the top of the stack, then rotate the top <strong>n</strong> values on the stack, moving the top value to the "bottom".</td>
+					</tr>
+					<tr>
+						<td>22</td> <td><a class="inline-code" href="#cmd22">{</a></td> <td>Pop a value <strong>n</strong> from the top of the stack, then rotate the top <strong>n</strong> values on the stack, moving the "bottom" value to the top.</td>
+					</tr>
+					<tr>
+						<td>23</td> <td><a class="inline-code" href="#cmd23">,</a></td> <td>Take one Unicode codepoint as input and push its value on the stack. If there is no input to read, -1 is pushed instead.</td>
+					</tr>
+					<tr>
+						<td>24</td> <td><a class="inline-code" href="#cmd24">.</a></td> <td>Output the top value of the stack as a Unicode codepoint, and discard it.</td>
+					</tr>
+					<tr>
+						<td>25</td> <td><a class="inline-code" href="#cmd25">:</a></td> <td>Output the top value of the stack as a number, and discard it.</td>
+					</tr>
+					<tr>
+						<td>26</td> <td><a class="inline-code" href="#cmd26">@</a></td> <td>Stop execution of the program here.</td>
+					</tr>
+				</table>
+			</div>
+		</section>
+		<section>
+			<h3 id="cmd1">Command 1: <span class="inline-code">[</span> (Loop While Nonzero)</h3>
+			<p>This command begins a loop, which repeats while the top item of the stack is nonzero.</p>
+			<p>First, the top item of the stack is popped off. Then, if it is zero, the program moves past the matching <a class="inline-code" href="#cmd3">]</a> command. Otherwise, the body of the loop executes, and then control is sent back to the beginning of the loop again. This process repeats until the examined top item of the stack is zero.</p>
+			<p>This is useful not just for looping a piece of code multiple times or until a condition is false, but it is also a good way to implement conditionals as well. For instance, the <strong>Cheat Mode</strong> snippet <span class="inline-code">[ #33. #1!]</span> executes once only if the top item on the stack is nonzero (in this case, it outputs an exclamation point). In order to only run once, the end of the body of the loop has the snippet <span class="inline-code">#1!</span>, which pushes a 0 on top of the stack and ends the "loop" early.</p>
+			<h3 id="cmd2">Command 2: <span class="inline-code">_[</span> (Loop Until Zero)</h3>
+			<p>This command begins a loop, which runs at least once, and then repeats until the top item of the stack is zero.</p>
+			<p>This is almost entirely equivalent to the <a class="inline-code" href="#cmd1">[</a> command, with the difference being that this command executes the loop body once unconditionally, and <em>then</em> loops while the top of the stack is nonzero.</p>
+			<h3 id="cmd3">Command 3: <span class="inline-code">]</span> (End Loop)</h3>
+			<p>This command ends a loop that has been started by the <a class="inline-code" href="#cmd1">[</a> or <a class="inline-code" href="#cmd2">_[</a> commands. Nothing special here.</p>
+			<h3 id="cmd4">Command 4: <span class="inline-code">#</span> (Push)</h3>
+			<p>This command pushes a number on top of the stack. What number this is depends on the next word in the program.</p>
+			<p>The next word is not reduced modulo 26 before being pushed; its full Gematria value is pushed onto the stack. For example, <span class="inline-code">several people</span> represents a push command followed by the word "people", which happens to sum to <strong>69</strong>. This means that <span class="inline-code">several people</span> pushes the number <strong>69</strong> onto the stack.</p>
+			<p>Due to the fact that any possible series of letters has a positive Gematria value, one cannot push the number 0 by itself (not even in <strong>Cheat Mode</strong>!). To push the number 0, you must push some nonzero number, and then either duplicate it and subtract it from itself, or execute the <a class="inline-code" href="#cmd13">!</a> command. To push a negative number, you must push 0 using either of those methods, push the absolute value of that number, and then run the <a class="inline-code" href="#cmd9">-</a> command to subtract it from 0.</p>
+			<h3 id="cmd5">Command 5: <span class="inline-code">=</span> (Push Stack Length)</h3>
+			<p>This command pushes the current number of items on the stack, onto the stack.</p>
+			<p>If you are iterating over every item on the stack, you'll quickly find that popping a value from an empty stack gives an error message. To accomplish that, an easy way is to use this command right before the end of a loop, so that when the number of items on the stack is zero, the loop will end.</p>
+			<h3 id="cmd6">Command 6: <span class="inline-code">?</span> (Random Number)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then pushes a uniformly-distributed random number <strong>x</strong> such that 0 &le; <strong>x</strong> &lt; <strong>n</strong>.</p>
+			<h3 id="cmd7">Command 7: <span class="inline-code">;</span> (Pop)</h3>
+			<p>This command pops a value from the top of the stack, then discards it. This is useful when you want to get rid of a stack item for some reason.</p>
+			<h3 id="cmd8">Command 8: <span class="inline-code">+</span> (Add)</h3>
+			<p>This command pops a value <strong>b</strong>, then pops a value <strong>a</strong>, then it calculates <strong>a</strong>+<strong>b</strong> and pushes the result onto the stack.</p>
+			<p>There is no limit to how big the numbers can get. Really. Try it.</p>
+			<h3 id="cmd9">Command 9: <span class="inline-code">-</span> (Subtract)</h3>
+			<p>This command pops a value <strong>b</strong>, then pops a value <strong>a</strong>, then it calculates <strong>a</strong>-<strong>b</strong> and pushes the result onto the stack.</p>
+			<p>Don't worry, <strong>Gematrimax</strong> handles negative numbers just fine.</p>
+			<h3 id="cmd10">Command 10: <span class="inline-code">*</span> (Multiply)</h3>
+			<p>This command pops a value <strong>b</strong>, then pops a value <strong>a</strong>, then it calculates <strong>a</strong>*<strong>b</strong> and pushes the result onto the stack.</p>
+			<p>There is no limit to how big the numbers can get. Really. Try it.</p>
+			<h3 id="cmd11">Command 11: <span class="inline-code">/</span> (Divide)</h3>
+			<p>This command pops a value <strong>b</strong>, then pops a value <strong>a</strong>, then it calculates <strong>a</strong>/<strong>b</strong> (truncating it to an integer; for example, 38/7 = <strong>5</strong>) and pushes the result onto the stack.</p>
+			<p>Try not to divide by 0. The interpreter will freak out if you do that.</p>
+			<h3 id="cmd12">Command 12: <span class="inline-code">%</span> (Modulus)</h3>
+			<p>This command pops a value <strong>b</strong>, then pops a value <strong>a</strong>, then it calculates <strong>a</strong>%<strong>b</strong> (the remainder of <strong>a</strong>/<strong>b</strong>; for example, 38%7 = <strong>3</strong>) and pushes the result onto the stack.</p>
+			<p>Don't run this command with 0 as the second argument. That's the same as taking the remainder of a division by 0, which the interpreter doesn't like.</p>
+			<h3 id="cmd13">Command 13: <span class="inline-code">!</span> (Not)</h3>
+			<p>This command pops a value <strong>n</strong> from the stack. If <strong>n</strong> is equal to 0, the number 1 is pushed. Otherwise, the number 0 is pushed.</p>
+			<p>This is useful for checking the opposite of some condition, and can be used in many different constructions. For example, the <strong>Cheat Mode</strong> snippet <span class="inline-code">-!</span> checks if the top two stack items are equal. This is done by subtracting the top two stack items, which results in 0 if they are equal, and any nonzero value if they are not. The addition of the <a class="inline-code" href="#cmd13">!</a> command turns this into 1 if the items were equal, and 0 if they were not.</p>
+			<h3 id="cmd14">Command 14: <span class="inline-code">$</span> (Max)</h3>
+			<p>This command compares the top two stack items with each other, and discarding the smaller of the two, leaving the maximum of the two numbers.</p>
+			<p>This can be used to do inequality comparisons, by copying the top two stack items, running this command, and then comparing both of them with the resulting number. If one of them is equal to this maximum, then it is greater than the other one. Making a program that can compare two stack items like this is left as an exercise to the reader.</p>
+			<h3 id="cmd15">Command 15: <span class="inline-code">&amp;</span> (Duplicate)</h3>
+			<p>This command pushes a copy of the top stack item on top of the stack.</p>
+			<p>This can be useful just before a <a class="inline-code" href="#cmd1">[</a> loop if you want to save the top stack item, because that loop uses it for condition checking.</p>
+			<h3 id="cmd16">Command 16: <span class="inline-code">&gt;</span> (Copy From Top)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then pushes a copy of the <strong>n</strong>th value from the top of the stack. This means that pushing 0 and using this command would copy the top value, pushing 1 and using this command would copy the second-from-top value, and so on.</p>
+			<h3 id="cmd17">Command 17: <span class="inline-code">&lt;</span> (Copy From Bottom)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then pushes a copy of the <strong>n</strong>th value from the bottom of the stack. This means that pushing 0 and using this command would copy the bottom value, pushing 1 and using this command would copy the second-from-bottom value, and so on.</p>
+			<h3 id="cmd18">Command 18: <span class="inline-code">\</span> (Swap)</h3>
+			<p>This command switches the positions of the top two items on the stack.</p>
+			<p>Of course, there must be at least two items on the stack if you want to swap them. But you probably already knew that.</p>
+			<h3 id="cmd19">Command 19: <span class="inline-code">)</span> (Rotate Top-To-Bottom)</h3>
+			<p>This command moves the top item on the stack to the bottom.</p>
+			<h3 id="cmd20">Command 20: <span class="inline-code">(</span> (Rotate Bottom-To-Top)</h3>
+			<p>This command moves the bottom item on the stack to the top.</p>
+			<h3 id="cmd21">Command 21: <span class="inline-code">}</span> (Rotate N Values Top-To-Bottom)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then takes the top <strong>n</strong> values from the top of the stack, executes the <a class="inline-code" href="#cmd19">)</a> command (moving the top element of the group to the bottom), and then pushes the group back onto the stack.</p>
+			<p>Note that pushing 1 on the stack and executing this command does nothing, and pushing 2 on the stack and executing this command has the same effect as the <a class="inline-code" href="#cmd18">\</a> command.</p>
+			<h3 id="cmd22">Command 22: <span class="inline-code">{</span> (Rotate N Values Bottom-To-Top)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then takes the top <strong>n</strong> values from the top of the stack, executes the <a class="inline-code" href="#cmd20">(</a> command (moving the bottom element of the group to the top), and then pushes the group back onto the stack.</p>
+			<p>Note that pushing 1 on the stack and executing this command does nothing, and pushing 2 on the stack and executing this command has the same effect as the <a class="inline-code" href="#cmd18">\</a> command.</p>
+			<h3 id="cmd23">Command 23: <span class="inline-code">,</span> (Input)</h3>
+			<p>This command takes in input as a series of Unicode codepoints, and pushes the next codepoint in the input as a number. (If there are no more characters left in the input, the number -1 is pushed instead.)</p>
+			<p>Unicode codepoints are representations of Unicode characters as integers from 0 to 1,114,111. For pretty much any character or sequence of characters you can type (and some that you <em>can't</em> - yet), they will be converted into integers within that range. Keep in mind that because of the way Unicode codepoints have been defined, what seem to be singular characters might decompose into multiple codepoints.</p>
+			<h3 id="cmd24">Command 24: <span class="inline-code">.</span> (Output Unicode)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then outputs this value as a Unicode codepoint and discards it.</p>
+			<p>Unicode codepoints are representations of Unicode characters as integers from 0 to 1,114,111. For pretty much any character or sequence of characters you can type (and some that you <em>can't</em> - yet), they will be converted into integers within that range. If the top stack value is not in this range when this command is executed, an error will occur.</p>
+			<h3 id="cmd25">Command 25: <span class="inline-code">:</span> (Output Number)</h3>
+			<p>This command pops a value <strong>n</strong> from the top of the stack, then outputs this value as a number and discards it.</p>
+			<p>This number will have a minus sign in front of it if it is negative, and there will be no leading zeros (unless the number <em>is</em> zero).</p>
+			<h3 id="cmd26">Command 26: <span class="inline-code">@</span> (Stop)</h3>
+			<p>This command immediately ends program execution. This can be done anywhere, even within one or more loops.</p>
 		</section>
 		<hr>
 		<address>

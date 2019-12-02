@@ -60,7 +60,7 @@ a:visited {
 	color: darkOrchid;
 }
 
-a:not(.nav-link):not(.tio-message):hover {
+a:not(.nav-link):not(.tio-message):not(.inline-code):hover {
 	filter: brightness(130%);
 }
 
@@ -175,11 +175,24 @@ nav #nav-collapse, nav label[for="nav-collapse"] {
 .inline-code {
 	display: inline-block;
 	background-color: paleGreen;
+	color: black;
 	border: 1px solid seaGreen;
 	border-radius: 3px;
 	font-family: Anonymous Pro, Consolas, Courier New, monospace;
 	font-weight: bold;
 	padding: .1em .3em;
+}
+
+a.inline-code {
+	text-decoration: none;
+}
+
+a.inline-code:visited {
+	color: black;
+}
+
+a.inline-code:hover {
+	cursor: pointer;
 }
 
 code, input[type="text"], textarea, #output-container, #gematriabot-output {
@@ -453,6 +466,38 @@ button:active {
 	width: -moz-fit-content;
 	width: fit-content;
 	margin: 0px .35em;
+}
+
+.table-container {
+	max-height: 70vh;
+	overflow-x: auto;
+	overflow-y: auto;
+	margin: .5em 0;
+}
+
+table {
+	background-color: blanchedAlmond;
+	border: 3px solid black;
+	border-collapse: collapse;
+}
+
+table th, table td {
+	padding: .5em;
+	text-align: center;
+	font-size: 110%;
+}
+
+table th {
+	background-color: limeGreen;
+	color: honeyDew;
+	border: 3px solid black;
+	font-size: 130%;
+	font-weight: bold;
+}
+
+table td {
+	border: 2px solid black;
+	color: black;
 }
 
 hr {
