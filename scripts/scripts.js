@@ -776,7 +776,6 @@ window.onload = function() {
 		tioLink.classList.add("tio-message");
 		// ...that brings us to a new tab...
 		tioLink.setAttribute("target", "_blank");
-		console.log(el.getAttribute("data-tio-input"));
 		// ...that autofills with the right code...
 		tioLink.setAttribute("href", tioPage + "?" + TIOStateToURL([
 			// The code

@@ -13,7 +13,7 @@
 		<!-- Some main stuff -->
 		<script src="../scripts/scripts.js"></script>
 		<!-- Assist with encoding share data into a URL -->
-		<script src="https://cdn.rawgit.com/nodeca/pako/master/dist/pako.min.js"></script>
+		<script src="../scripts/pako.js"></script>
 		
 		<!-- Meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -98,9 +98,69 @@ After decades, will a connection resume?</code>
 		</section>
 		<section>
 			<h3>Cat Program</h3>
-<code id="cdoe" data-tio-input="Hello, World! &#x1F44B;&#x1F30E;&#xa;Gematrimax is &#x1F150;&#x1F166;&#x1F154;&#x1F162;&#x1F15E;&#x1F15C;&#x1F154;!">We would demand information: a list including your sentence.
-Work until this doesn't show another part.</code>
-			<p>This program copies its input directly to its output.</p>
+<code data-tio-input="Hello, World! &#x1F44B;&#x1F30E;&#xa;Gematrimax is &#x1F150;&#x1F166;&#x1F154;&#x1F162;&#x1F15E;&#x1F15C;&#x1F154;!">We would demand information - a list including your characters - until this doesn't show another part.</code>
+			<p>This program copies its input directly to its output. It is equivalent to the following <strong>Cheat Mode</strong> program:</p>
+<code data-tio-cheatmode data-tio-input="Hello, World! &#x1F44B;&#x1F30E;&#xa;Gematrimax is &#x1F150;&#x1F166;&#x1F154;&#x1F162;&#x1F15E;&#x1F15C;&#x1F154;!">_[      "repeat until zero"
+  ,     "ask for input"
+  &amp;#1+  "duplicate and add 1"
+  &amp;[    "if result not 0, this part runs"
+    \.  "output the original character"
+  #1!]  "end this 'loop'"
+]       "top of stack will be 0 iff done"</code>
+			<p>Basically, this consumes codepoints bring pushed onto the stack until adding 1 to them results in 0 - that is to say, the pushed "codepoint" is -1, marking the end of input.</p>
+		</section>
+		<section>
+			<h3>Reverse Input</h3>
+<code data-tio-input="Hello, World! &#x1F44B;&#x1F30E;&#xa;Gematrimax is &#x1F150;&#x1F166;&#x1F154;&#x1F162;&#x1F15E;&#x1F15C;&#x1F154;!">We write, & work backwards.
+A word stored somewhere absolutely changes structure!
+Words reversed themselves, & backwards text shortly became mixed.</code>
+			<p>Because data is pushed onto the stack with the first pushed item on the bottom, it is exceedingly easy to reverse input. All that needs to be done is, after each codepoint is pushed, output the top item of the stack until the stack is empty (checked here using the <a class="inline-code" href="../docs/index.html#cmd5">=</a> command).</p>
+		</section>
+		<section>
+			<h3>ASCII Loop</h3>
+<code>Human eyes indeed are monitoring a citizen.
+Business advertising sits over buyers, driving everything.</code>
+			<p>Fun fact: this program was the <em>first</em> program written in Gematrimax (though it has gone through many changes and iterations since then.) It uses a simple approach of incrementing a counter and outputting its value as a Unicode codepoint infinitely. One can easily loop through all 1,114,112 Unicode characters by modifying this program, but this is left as an exercise to the reader.</p>
+		</section>
+		<section>
+			<h3>Fibonacci Numbers</h3>
+<code>Ideal greatness: a heavy term.
+A person's hurt itself with desperate feelings.
+This, babe, clearly reveals a problem.</code>
+			<p>This program demonstrates <strong>Gematrimax</strong>'s capabilities of mathematical operations by outputting a the Fibonacci sequence. The sequence goes like this: the first term is 0, the second term is 1, and the next term is always the sum of the previous two terms.</p>
+			<p><strong>Gematrimax</strong>'s integers are of infinite precision; as such, this program will output Fibonacci numbers forever.</p>
+		</section>
+		<section>
+			<h3>Calculate Pi</h3>
+<code>D a D zzzzzzx D zzh D b
+B
+  O D c J O D a H R D b H D c J J
+  R O D za J D l I T O S J D d P D e J H D c P D e J K
+  O Y
+  D c P J R O D e J D b I T O S J R S R I D d V H R O S D j J J
+  R T J
+  T O O O H D a I J T D j J J
+  S D a H
+  O D c I M
+  A
+    D zt O X M
+  C
+  E
+C</code>
+			<p>If you would like to figure out how this works, be my guest.</p>
+			<p>This calculates the value of pi - the constant value of the circumference of any circle divided by its diameter - using an algorithm described in <a href="https://www.cs.ox.ac.uk/people/jeremy.gibbons/publications/spigot.pdf" target="_blank">this paper</a>, which uses only arbitrary-precision integers to calculate each digit one by one. The following is a (hopefully more understandable) representation of the program in <strong>Cheat Mode</strong>, and I encourage anyone who's interested to experiment with it!</p>
+<code data-tio-cheatmode>#1#180#60#2
+_[
+  &amp;#3*&amp;#1+\#2+#3**
+  \&amp;#27*#12-(&amp;)*#4&gt;#5*+#3&gt;#5*/
+  &amp;:
+  #3&gt;*\&amp;#5*#2-(&amp;)*\)\-#4{+\&amp;)#10**
+  \(*
+  (&amp;&amp;&amp;+#1-*(#10**
+  )#1+
+  &amp;#3-![#46&amp;.!]
+  =
+]</code>
 		</section>
 		<hr>
 		<address>
