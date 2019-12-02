@@ -78,6 +78,7 @@ nav #nav-items {
 nav li {
 	/* Once again, this is not a list */
 	list-style-type: none;
+	position: relative;
 	background-color: var(--main-shade);
 	border: 2px solid darkSlateGray;
 	border-radius: .25em;
@@ -88,6 +89,18 @@ nav li {
 	width: -moz-fit-content;
 	width: fit-content;
 	transition: background-color 1s ease;
+}
+
+nav li img {
+	position: absolute;
+	height: 1.5em;
+	top: .25em;
+	left: -1.5em;
+	transition: left .5s ease;
+}
+
+nav li:not(.active):hover img {
+	left: .25em;
 }
 
 nav a, nav a:visited {
@@ -113,7 +126,7 @@ nav li:not(.active):hover {
 
 nav li:not(.active):hover a {
 	color: white;
-	padding-left: 1.8em;
+	padding-left: 2em;
 }
 
 nav #nav-collapse, nav label[for="nav-collapse"] {
