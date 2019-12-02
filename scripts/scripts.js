@@ -776,14 +776,15 @@ window.onload = function() {
 		tioLink.classList.add("tio-message");
 		// ...that brings us to a new tab...
 		tioLink.setAttribute("target", "_blank");
+		console.log(el.getAttribute("data-tio-input"));
 		// ...that autofills with the right code...
 		tioLink.setAttribute("href", tioPage + "?" + TIOStateToURL([
 			// The code
-			el.textContent,
+			textToByteString(el.textContent),
 			// The input ("" if the attribute doesn't exist)
-			el.getAttribute("data-tio-input"),
+			textToByteString(el.getAttribute("data-tio-input") || ""),
 			// Either of "good" or "bad" depending on if this attribute exists
-			el.hasAttribute("data-tio-cheatmode") ? "good" : "bad"
+			textToByteString(el.hasAttribute("data-tio-cheatmode") ? "good" : "bad")
 		]));
 		// ...and that we insert just before the end of the code element
 		el.insertAdjacentElement("beforeend", tioLink);
