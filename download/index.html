@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Try Gematrimax Online</title>
+		<title>Download Gematrimax</title>
 		
 		<!-- Sometimes I need to include this early, so I do it out of habit -->
 		<meta charset="utf-8">
@@ -12,16 +12,12 @@
 		<!-- JavaScript files -->
 		<!-- Some main stuff -->
 		<script src="../scripts/scripts.js"></script>
-		<!-- Execute Gematrimax programs -->
-		<script src="../scripts/gematrimax.js"></script>
-		<!-- Make textboxes grow with their content -->
-		<script src="../scripts/autosize.js"></script>
 		<!-- Assist with encoding share data into a URL -->
 		<script src="../scripts/pako.js"></script>
 		
 		<!-- Meta tags -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="The online interpreter for Gematrimax, an esolang which turns words into numbers, and then turns those into commands.">
+		<meta name="description" content="The download page for Gematrimax, an esolang which turns words into numbers, and then turns those into commands.">
 		<meta name="keywords" content="gematrimax, esolang, esoteric, programming, language, interpreter, documentation">
 		<!-- Noscript and print functionality, just in case -->
 		<style>
@@ -75,7 +71,7 @@
 					<img src="https://img.icons8.com/metro/26/ffffff/file.png">
 					<a class="nav-link" href="../examples/index.html">Examples</a>
 				</li>
-				<li class="active">
+				<li>
 					<img src="https://img.icons8.com/metro/26/ffffff/keyboard.png">
 					<a class="nav-link" href="../tio/index.html">Try It Online</a>
 				</li>
@@ -83,9 +79,9 @@
 					<img src="https://img.icons8.com/metro/26/ffffff/math.png">
 					<a class="nav-link" href="../gematriabot/index.html">Gematria-Bot</a>
 				</li>
-				<li>
+				<li class="active">
 					<img src="https://img.icons8.com/metro/26/ffffff/download.png">
-					<a class="nav-link" href="../download/index.html">Download</a>
+					<a class="nav-link" href="index.html">Download</a>
 				</li>
 				<li>
 					<img src="https://img.icons8.com/metro/26/ffffff/faq.png">
@@ -93,30 +89,23 @@
 				</li>
 			</ul>
 		</nav>
-		<section class="yes-script">
-			<p>This page hosts an online interpreter for <strong>Gematrimax</strong>. This is the easiest way to get programs up and running. If you want to run these programs offline, go to the <a href="../download/index.html">Download</a> page to download other interpreters.</p>
-			<h3>Gematrimax Online Interpreter</h3>
-			<div class="buttons-container">
-				<button id="button-share" class="good">Share</button> <span id="share-code-msg"></span> <span id="share-text">Copied to clipboard!</span>
-			</div>
-			<textarea id="program-code" rows="3" cols="100" placeholder="Enter your program here..." autofocus></textarea>
-			<textarea id="program-input" rows="1" cols="100" placeholder="Program input goes here..."></textarea>
-			<div class="buttons-container">
-				<button id="button-execute" class="good">Execute</button>
-				<button id="button-stop" class="bad">Stop</button>
-				<br>
-				<button id="button-cheatmode" class="bad"></button>
-			</div>
-			<div id="output-container">
-				<div id="program-output" data-placeholder="Program output goes here..."></div>
-				<div id="program-error"></div>
-				<div id="program-done"></div>
-			</div>
+		<section>
+			<h3>Download</h3>
+			<p><a href="../files/gematrimax-py.zip">Python interpreter with sample programs</a> (5 KB zipped)</p>
+			<p>Please <a href="mailto:winslowjosiah@gmail.com">email me</a> if you encounter any problems with the interpreters!</p>
 		</section>
-		<section class="no-script">
-			<p>This page hosts an online interpreter for <strong>Gematrimax</strong>. This is the easiest way to get programs up and running; however, you need to enable JavaScript in order to use it. If you can't enable JavaScript in your browser, don't want to enable JavaScript, or otherwise want to run these programs offline, go to the Downloads page to download other interpreters.</p>
-			<h3>Gematrimax Online Interpreter</h3>
-			<p>For full functionality of this site it is necessary to enable JavaScript. Here are the <a href="https://www.enable-javascript.com/" target="_blank"> instructions how to enable JavaScript in your web browser</a>.</p>
+		<section>
+			<h3>How To Use</h3>
+			<p>The Python interpreter takes arguments from the command-line, and it is run like this:</p>
+			<div class="inline-code">gematrimax.py [ -i <em>input-file</em> ] [ -c ] <em>gematrimax-program</em></div>
+			<p><em>gematrimax-program</em> is the program file which you want to run as Gematrimax code. (It can have any extension, though <strong>.gmx</strong> is recommended.)</p>
+			<p>The options are optional, but if included, they do the following:</p>
+			<ul>
+				<li><span class="inline-code">-i</span> / <span class="inline-code">--input</span>: Take input from a specified file, instead of STDIN.</li>
+				<li><span class="inline-code">-c</span> / <span class="inline-code">--cheatmode</span>: Interpret program in <strong>Cheat Mode</strong> instead of <strong>Gematrimax</strong>.</li>
+			</ul>
+			<p><em>(Note: When typing in STDIN, the sequence CTRL+Z is considered end-of-file.)</em></p>
+			<p>Others are more than welcome to send me their own interpreters and compilers for Gematrimax (bonus points if they are valid Gematrimax programs themselves!).</p>
 		</section>
 		<hr>
 		<address>

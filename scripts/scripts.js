@@ -140,7 +140,6 @@ var gmxCommands = [
 	{
 		val: 1,
 		cmd: "[",
-		desc: "loop while top of stack is nonzero (tested before start)",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -178,7 +177,6 @@ var gmxCommands = [
 	{
 		val: 2,
 		cmd: "_[",
-		desc: "loop while top of stack is nonzero (tested after end)",
 		func: function(argc, argv) {
 			this.addressStack.push(this.instructionPointer);
 		}
@@ -186,7 +184,6 @@ var gmxCommands = [
 	{
 		val: 3,
 		cmd: "]",
-		desc: "end while loop",
 		func: function(argc, argv) {
 			var loopBackPointer = this.addressStack.pop();
 			
@@ -215,7 +212,6 @@ var gmxCommands = [
 	{
 		val: 4,
 		cmd: "#",
-		desc: "push (number)",
 		func: function(argc, argv) {
 			this.stack.push(BigInt(argv[0]));
 		}
@@ -223,7 +219,6 @@ var gmxCommands = [
 	{
 		val: 5,
 		cmd: "=",
-		desc: "push the stack's length",
 		func: function(argc, argv) {
 			this.stack.push(BigInt(this.stack.length));
 		}
@@ -231,7 +226,6 @@ var gmxCommands = [
 	{
 		val: 6,
 		cmd: "?",
-		desc: "pop n, then push a random number from 0 to n",
 		func: function(argc, argv) {
 			var randMax = this.stack.pop();
 			if (isUndefined(randMax))
@@ -252,7 +246,6 @@ var gmxCommands = [
 	{
 		val: 7,
 		cmd: ";",
-		desc: "pop a value from the stack and discard",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -266,7 +259,6 @@ var gmxCommands = [
 	{
 		val: 8,
 		cmd: "+",
-		desc: "add the top two stack values, then push the result",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -282,7 +274,6 @@ var gmxCommands = [
 	{
 		val: 9,
 		cmd: "-",
-		desc: "subtract the top stack value from the second-from-top stack value, then push the result",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -298,7 +289,6 @@ var gmxCommands = [
 	{
 		val: 10,
 		cmd: "*",
-		desc: "mutiply the top two stack values, then push the result",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -314,7 +304,6 @@ var gmxCommands = [
 	{
 		val: 11,
 		cmd: "/",
-		desc: "divide the second-from-top stack value by the top stack value, then push the result",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -337,7 +326,6 @@ var gmxCommands = [
 	{
 		val: 12,
 		cmd: "%",
-		desc: "modulo the second-from-top stack value by the top stack value, then push the result",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -360,7 +348,6 @@ var gmxCommands = [
 	{
 		val: 13,
 		cmd: "!",
-		desc: "pop n, then push 1 if n is 0, otherwise push 0",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -375,7 +362,6 @@ var gmxCommands = [
 	{
 		val: 14,
 		cmd: "$",
-		desc: "discard the lower of the two top stack values",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -392,7 +378,6 @@ var gmxCommands = [
 	{
 		val: 15,
 		cmd: "&",
-		desc: "duplicate the top stack value",
 		func: function(argc, argv) {
 			var a = this.stack.pop();
 			if (isUndefined(a))
@@ -408,7 +393,6 @@ var gmxCommands = [
 	{
 		val: 16,
 		cmd: ">",
-		desc: "pop n, then push a copy of the nth stack value from the top",
 		func: function(argc, argv) {
 			var pointer = this.stack.pop();
 			if (isUndefined(pointer))
@@ -430,7 +414,6 @@ var gmxCommands = [
 	{
 		val: 17,
 		cmd: "<",
-		desc: "pop n, then push a copy of the nth stack value from the bottom",
 		func: function(argc, argv) {
 			var pointer = this.stack.pop();
 			if (isUndefined(pointer))
@@ -452,7 +435,6 @@ var gmxCommands = [
 	{
 		val: 18,
 		cmd: "\\",
-		desc: "swap the top two stack values",
 		func: function(argc, argv) {
 			var b = this.stack.pop();
 			var a = this.stack.pop();
@@ -469,7 +451,6 @@ var gmxCommands = [
 	{
 		val: 19,
 		cmd: ")",
-		desc: "rotate the entire stack, shifting the top value down to the bottom",
 		func: function(argc, argv) {
 			this.stack = rotateTopToBottom.call(this, this.stack);
 		}
@@ -477,7 +458,6 @@ var gmxCommands = [
 	{
 		val: 20,
 		cmd: "(",
-		desc: "rotate the entire stack, shifting the bottom value up to the top",
 		func: function(argc, argv) {
 			this.stack = rotateBottomToTop.call(this, this.stack);
 		}
@@ -485,7 +465,6 @@ var gmxCommands = [
 	{
 		val: 21,
 		cmd: "}",
-		desc: "pop n, then rotate the top n stack values, shifting the top value down to the bottom",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -530,7 +509,6 @@ var gmxCommands = [
 	{
 		val: 22,
 		cmd: "{",
-		desc: "pop n, then rotate the top n stack values, shifting the bottom value up to the top",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -575,7 +553,6 @@ var gmxCommands = [
 	{
 		val: 23,
 		cmd: ",",
-		desc: "take one Unicode codepoint as input and push it onto the stack",
 		func: function(argc, argv) {
 			if (this.eofReached)
 			{
@@ -592,7 +569,6 @@ var gmxCommands = [
 	{
 		val: 24,
 		cmd: ".",
-		desc: "output the top stack value as a Unicode codepoint and discard it",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -614,7 +590,6 @@ var gmxCommands = [
 	{
 		val: 25,
 		cmd: ":",
-		desc: "output the top stack value as a number and discard it",
 		func: function(argc, argv) {
 			var val = this.stack.pop();
 			if (isUndefined(val))
@@ -629,7 +604,6 @@ var gmxCommands = [
 	{
 		val: 26,
 		cmd: "@",
-		desc: "end the program here",
 		func: function(argc, argv) {
 			this.programExecuting = false;
 		}
