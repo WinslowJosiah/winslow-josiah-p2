@@ -226,8 +226,12 @@ code, input[type="text"], textarea, #output-container, #gematriabot-output {
 	overflow-x: auto;
 }
 
-code, #program-output {
+code {
 	white-space: pre-wrap;
+}
+
+#program-output {
+	white-space: pre;
 }
 
 input[type="text"] {
