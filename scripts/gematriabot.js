@@ -81,7 +81,7 @@ window.onload = function() {
 		{
 			var gematriaVal = gematria(val);
 			var gematriaCommandNum = Number((gematriaVal - 1n) % 26n + 1n);
-			outputEl.innerHTML = `<span class="gematriabot-output-number">${gematriaVal}</span><br>Reduced: <span class="gematriabot-output-bolded">${gematriaCommandNum}</span><br>Command: <span class="gematriabot-output-bolded">${gmxCommands.find(cmd => cmd.val == gematriaCommandNum).cmd}</span>`;
+			outputEl.innerHTML = `<span class="gematriabot-output-number">${gematriaVal}</span><br>Reduced: <span class="gematriabot-output-bolded">${gematriaCommandNum}</span><br>Command: <a class="inline-code" href="../docs/index.html#cmd${gematriaCommandNum}" target="_blank">${gmxCommands.find(cmd => cmd.val == gematriaCommandNum).cmd}</a>`;
 		}
 	};
 	
